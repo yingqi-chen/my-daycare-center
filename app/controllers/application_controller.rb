@@ -26,7 +26,7 @@ class ApplicationController < Sinatra::Base
     if @user.valid?
       redirect to '/users/:id'
     else
-      flash[:error]="You have to submit both an effective username and password!"
+      flash[:error]="You have to submit an effective username, email and password!"
       erb :"/users/error"
     end
   end
@@ -36,7 +36,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/login' do
-
+    binding.pry
     redirect to '/users/show'
   end
 
