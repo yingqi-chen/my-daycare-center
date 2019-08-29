@@ -26,7 +26,7 @@ class ApplicationController < Sinatra::Base
     if @user.valid?
       redirect to '/users/:id'
     else
-      flash[:error]="You have to submit an effective username, email and password!"
+      flash[:error]="Did you submit a blank username, email or password? Or did you give me a registered email? That's not acceptable, try again please! "
       erb :"/users/error"
     end
   end
