@@ -24,7 +24,7 @@ class ApplicationController < Sinatra::Base
   post '/signup' do
     @user=User.create(params[:user])
     if @user.valid?
-      redirect to '/users/:id'
+      redirect to '/users/#{@user.id}'
     else
       flash[:error]="Did you submit a blank username, email or password? Or did you give me a registered email? That's not acceptable, try again please! "
       erb :"/users/error"

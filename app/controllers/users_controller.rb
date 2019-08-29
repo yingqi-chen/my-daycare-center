@@ -1,23 +1,19 @@
 class UsersController < ApplicationController
-
-  # GET: /users
-  get "/users" do
-    erb :"/users/index.html"
-  end
-
-  # GET: /users/new
-  get "/users/new" do
-    erb :"/users/new.html"
-  end
-
-  # POST: /users
-  post "/users" do
-    redirect "/users"
-  end
+  register Sinatra::Flash
 
   # GET: /users/5
   get "/users/:id" do
-    erb :"/users/show"
+    if (@user=User.find_by :id=>(params[:id]))
+      if @user.id==session[:user_id]
+       erb :"/users/show"
+      else
+       flash[:error]="You have no right to check this user's file."
+       erb :"users/error"
+      end
+    else
+      flash[:error]="The user doesn't exist."
+      erb :"users/error"
+    end
   end
 
   # GET: /users/5/edit
