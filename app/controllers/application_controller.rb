@@ -37,8 +37,13 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/login' do
-    binding.pry
-    redirect to '/users/show'
+    @user=User.find_by :email=>params[:email]
+    if @user && @user.authenticate(params[:password])
+      redirect to '/users/show'
+    else
+      flash[:error]="That doesn't exist!"
+    end
+
   end
 
   get '/logout' do

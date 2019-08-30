@@ -11,6 +11,7 @@ class UsersController < ApplicationController
        erb :"users/error"
       end
     else
+      #binding.pry
       flash[:error]="The user doesn't exist."
       erb :"users/error"
     end
