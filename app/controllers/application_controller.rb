@@ -24,7 +24,8 @@ class ApplicationController < Sinatra::Base
   post '/signup' do
     @user=User.create(params[:user])
     if @user.valid?
-      redirect to '/users/#{@user.id}'
+      session[:user_id]=@user.id
+      redirect to "/users/#{@user.id}"
     else
       flash[:error]="Did you submit a blank username, email or password? Or did you give me a registered email? That's not acceptable, try again please! "
       #binding.pry
@@ -33,21 +34,26 @@ class ApplicationController < Sinatra::Base
   end
 
   get '/login' do
-    erb :"/users/login"
+    if session[:user_id]
+      redirect to "/users/:id"
+    else
+      erb :"/users/login"
+    end
   end
 
   post '/login' do
     @user=User.find_by :email=>params[:email]
     if @user && @user.authenticate(params[:password])
-      redirect to '/users/show'
+      session[:user_id]=@user.id
+      redirect to "/users/#{@user.id}"
     else
       flash[:error]="That doesn't exist!"
+      erb :"/users/error"
     end
-
   end
 
   get '/logout' do
-
+    session.clear
     redirect to '/login'
   end
 
