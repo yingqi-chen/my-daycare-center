@@ -27,6 +27,7 @@ class ApplicationController < Sinatra::Base
       redirect to '/users/#{@user.id}'
     else
       flash[:error]="Did you submit a blank username, email or password? Or did you give me a registered email? That's not acceptable, try again please! "
+      #binding.pry
       erb :"/users/error"
     end
   end
