@@ -1,3 +1,8 @@
 <h1><%= @user.username %></h1>
 
+<h2>The reviews you have made:</h2>
+<% @user.reviews.each do |r|%>
+<%= r.rate + r.content %>
+<% end %>
+
 <a href="/logout">Log out</a>
