@@ -46,16 +46,31 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews/5/edit
   get "/reviews/:id/edit" do
-    erb :"/reviews/edit.html"
+    @review=Review.find_by :id=>params[:id]
+    if Helper.current_user(session)==@review.user
+      erb :"/reviews/edit"
+    else
+      flash[:error]="You have no right to edit this review."
+      redirect to "/reviews"
+    end
   end
 
   # PATCH: /reviews/5
   patch "/reviews/:id" do
-    redirect "/reviews/:id"
+    @review=Review.find_by :id=>params[:id]
+    @review.update(params[:review])
+    redirect "/reviews/#{@review.id}"
   end
 
   # DELETE: /reviews/5/delete
   delete "/reviews/:id/delete" do
-    redirect "/reviews"
+    @review=Review.find_by :id=>params[:id]
+    if Helper.current_user(session)==@review.user
+      @review.delete
+      redirect to "/reviews"
+    else
+      flash[:error]="You have no right to delete this review."
+      redirect to "/reviews"
+    end
   end
 end

@@ -1,1 +1,9 @@
-<h1>Insert the form to edit an instance of your model here.</h1>
+<h1>Edit Review: </h1>
+<form action="/reviews/<%= @review.id%>" method="POST">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <p>You can edit your review for <a href="/centers/<%= @review.center.id%>"><%= @review.center.name %></a>: </p>
+  <label>Rate: <input type="text" name="review[rate]" placeholder="From 1-5,5 is the best"></label>
+  <br>
+  Content: <textarea name="review[content]"></textarea><br>
+  <input type="submit" value="Edit your review">
+</form>

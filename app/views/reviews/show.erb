@@ -1,1 +1,19 @@
-<h1>This is the show page for an individual instance of your model.</h1>
+<h1>Review about <a href="/centers/<%= @review.center.id%>"><%= @review.center.name %></a></h1>
+
+<p>
+who rated it: <a href="/users/<%= @review.user.id%>"><%= @review.user.username %></a><br>
+rate: <%= @review.rate%><br>
+content:
+<% if !!@review.content %>
+  "<%= @review.content%>""
+<% else %>
+  <%= "\"No review content left by the user.\" "%>
+<% end %>
+<br>
+</p>
+
+<p><a href="/reviews/<%= @review.id%>/edit">Edit review</a></p>
+<form action="/reviews/<%= @review.id %>/delete" method="post">
+  <input id="hidden" type="hidden" name="_method" value="delete">
+  <input type="submit" value="Delete review">
+</form>
