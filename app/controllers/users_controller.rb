@@ -3,21 +3,18 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get "/users/:id" do
-
-    if @user=User.find(params[:id])
-      binding.pry
-      if @user.id==session[:user_id]
+    if Helper.log_in?(session)
+      @user=User.find_by :id=>params[:id]
+      #binding.pry
+      if @user==Helper.current_user(session)
         @reviews=@user.reviews
-        @centers=@user.centers
-       erb :"/users/show"
+        erb :"/users/show"
       else
-       flash[:error]="You have no right to check this user's file."
-       redirect to '/signup'
+        flash[:error]="You have no right to check this user's file."
+        redirect to '/login'
       end
     else
-      #binding.pry
-      flash[:error]="The user doesn't exist."
-      redirect to '/signup'
+        redirect to '/login'
     end
   end
 
@@ -30,5 +27,6 @@ class UsersController < ApplicationController
   patch "/users/:id" do
     redirect "/users/:id"
   end
+
 
 end

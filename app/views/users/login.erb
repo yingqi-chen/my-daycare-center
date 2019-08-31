@@ -1,3 +1,7 @@
+<% if flash.has_key?(:error)%>
+  <%= flash[:error]%>
+<% end %>
+
 <h1>Log in: </h1>
 <form action="/login" method="POST">
 <label>Email: <input type="text" name="email"></label>

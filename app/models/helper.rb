@@ -4,5 +4,9 @@ class Helper
     User.find_by :id=>session[:user_id]
   end
 
+  def self.log_in?(session)
+    !!session[:user_id]
+  end
+
 
 end
