@@ -1,7 +1,10 @@
 <h1>All Centers: </h1>
 <ol>
   <% @centers.each do |c|%>
-    <li><a href="/centers/<%= c.id %>"><%= c.name %></a>
+    <li><a href="/centers/<%= c.id %>"><%= c.name %>: <%= c.address %></a>
     <br>
   <% end %>
 </ol>
+<br>
+
+<h2><a href="/reviews/new">Make a review now!</a></h2>

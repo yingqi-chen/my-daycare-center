@@ -8,12 +8,22 @@ class CentersController < ApplicationController
 
   # GET: /centers/new
   get "/centers/new" do
-    erb :"/centers/new.html"
+    if Helper.log_in?(session)
+      erb :"/centers/new"
+    else
+      flash[:error]="You have to log in first before creating a center!"
+      redirect to "/login"
+    end
   end
 
-  # POST: /centers
   post "/centers" do
-    redirect "/centers"
+    @center=Center.create(params[:center])
+    if @center.valid?
+      redirect "/centers"
+    else
+      flash[:error]="Sorry, a center must have a name and an address. Try again."
+      redirect to "/centers/new"
+    end
   end
 
   # GET: /centers/5

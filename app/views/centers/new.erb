@@ -1,1 +1,7 @@
-<h1>Insert the form to create a new instance of your model.</h1>
+<h1>Create a center: </h1>
+<form action="/centers" method="POST">
+  <label>Name: <input type="text" name="center[name]" placeholder="required field"></label>
+  <label>Address: <input type="text" name="center[address]" placeholder="required field"></label>
+  <label>Phone number: <input type="text" name="center[phone_number]"></label>
+  <input type="submit" value="Create center">
+</form>

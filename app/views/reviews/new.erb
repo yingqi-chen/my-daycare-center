@@ -1,15 +1,15 @@
-<% if flash.has_key?(:error)%>
- <%= flash[:error]%>
-<% end %>
 
 <h1>Create a review: </h1>
 <form action="/reviews" method="POST">
-  <label>Choose a center:
+
+  <h2>Choose a center:</h2>
     <% @centers.each do |c|%>
-    <%= c.name %><input type="radio" name="review[center_id]" value="<%= c.id %>">
+    <a href="/centers/<%= c.id %>"><%= c.name %></a><input type="radio" name="review[center_id]" value="<%= c.id %>">
     <br>
     <% end %>
-  </label>
+
+  <h3><a href="/centers/new">or create a new center</a></h3>
+
   <label>Rate: <input type="text" name="review[rate]" placeholder="From 1-5,5 is the best"></label>
   <br>
   Content: <textarea name="review[content]"></textarea><br>

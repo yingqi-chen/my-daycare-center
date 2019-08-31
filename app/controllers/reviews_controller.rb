@@ -8,8 +8,13 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews/new
   get "/reviews/new" do
-    @centers=Center.all
-    erb :"/reviews/new"
+    if Helper.log_in?(session)
+      @centers=Center.all
+      erb :"/reviews/new"
+    else
+      flash[:error]="You have to log in first before creating your own review!"
+      redirect to "/login"
+    end
   end
 
   # POST: /reviews
