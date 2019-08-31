@@ -1,0 +1,7 @@
+<h1>All Centers: </h1>
+<ol>
+  <% @centers.each do |c|%>
+    <li><a href="/centers/<%= c.id %>"><%= c.name %></a>
+    <br>
+  <% end %>
+</ol>

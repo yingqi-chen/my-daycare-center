@@ -2,7 +2,8 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews
   get "/reviews" do
-    erb :"/reviews/index.html"
+    @reviews=Review.all
+    erb :"/reviews/index"
   end
 
   # GET: /reviews/new
@@ -17,7 +18,8 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews/5
   get "/reviews/:id" do
-    erb :"/reviews/show.html"
+
+    erb :"/reviews/show"
   end
 
   # GET: /reviews/5/edit
