@@ -1,1 +1,17 @@
-<h1>Insert the form to create a new instance of your model.</h1>
+<% if flash.has_key?(:error)%>
+ <%= flash[:error]%>
+<% end %>
+
+<h1>Create a review: </h1>
+<form action="/reviews" method="POST">
+  <label>Choose a center:
+    <% @centers.each do |c|%>
+    <%= c.name %><input type="radio" name="review[center_id]" value="<%= c.id %>">
+    <br>
+    <% end %>
+  </label>
+  <label>Rate: <input type="text" name="review[rate]" placeholder="From 1-5,5 is the best"></label>
+  <br>
+  Content: <textarea name="review[content]"></textarea><br>
+  <input type="submit" value="Create your review">
+</form>

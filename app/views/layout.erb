@@ -15,6 +15,9 @@
   </head>
   <body>
     <div class="wrapper">
+      <% if flash.has_key?(:error)%>
+       <%= flash[:error]%>
+      <% end %>
 
         <%= yield %>
 
