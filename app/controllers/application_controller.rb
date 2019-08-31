@@ -1,4 +1,5 @@
 require './config/environment'
+require 'sinatra'
 require 'sinatra/base'
 require 'sinatra/flash'
 
@@ -6,11 +7,12 @@ class ApplicationController < Sinatra::Base
 
 
   configure do
+    register Sinatra::Flash
     set :public_folder, 'public'
     set :views, 'app/views'
     enable :sessions
     set :session_secret, "secret"
-    register Sinatra::Flash
+
   end
 
   get "/" do
@@ -28,8 +30,9 @@ class ApplicationController < Sinatra::Base
       redirect to "/users/#{@user.id}"
     else
       flash[:error]="Did you submit a blank username, email or password? Or did you give me a registered email? That's not acceptable, try again please! "
-      binding.pry
-      erb :"/users/error"
+      ##binding.pry
+      redirect to "/signup"
+      #erb :"/users/error"
     end
   end
 
@@ -48,7 +51,7 @@ class ApplicationController < Sinatra::Base
       redirect to "/users/#{@user.id}"
     else
       flash[:error]="That doesn't exist!"
-      erb :"/users/error"
+      redirect to "/signup"
     end
   end
 

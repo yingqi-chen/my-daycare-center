@@ -18,7 +18,8 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews/5
   get "/reviews/:id" do
-
+    @review=Review.find_by :id=>params[:id]
+    #if @review && @review.user==
     erb :"/reviews/show"
   end
 

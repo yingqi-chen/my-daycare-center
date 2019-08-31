@@ -3,19 +3,21 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get "/users/:id" do
-    if (@user=User.find_by :id=>(params[:id]))
+
+    if @user=User.find(params[:id])
+      binding.pry
       if @user.id==session[:user_id]
         @reviews=@user.reviews
         @centers=@user.centers
        erb :"/users/show"
       else
        flash[:error]="You have no right to check this user's file."
-       erb :"users/error"
+       redirect to '/signup'
       end
     else
       #binding.pry
       flash[:error]="The user doesn't exist."
-      erb :"users/error"
+      redirect to '/signup'
     end
   end
 
