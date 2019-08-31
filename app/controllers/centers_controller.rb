@@ -2,7 +2,8 @@ class CentersController < ApplicationController
 
   # GET: /centers
   get "/centers" do
-    erb :"/centers/index.html"
+    @centers=Center.all
+    erb :"/centers/index"
   end
 
   # GET: /centers/new
@@ -17,6 +18,7 @@ class CentersController < ApplicationController
 
   # GET: /centers/5
   get "/centers/:id" do
+
     erb :"/centers/show.html"
   end
 
@@ -30,8 +32,6 @@ class CentersController < ApplicationController
     redirect "/centers/:id"
   end
 
-  # DELETE: /centers/5/delete
-  delete "/centers/:id/delete" do
-    redirect "/centers"
-  end
+
+
 end
