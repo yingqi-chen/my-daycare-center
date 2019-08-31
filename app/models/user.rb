@@ -4,6 +4,6 @@ class User < ActiveRecord::Base
   has_many :centers, through: :reviews
 
   validates :username, presence: true
-  validates :password, :email, presence: true
+  validates :password_digest, :email, presence: true
   validates :email, uniqueness: true
 end

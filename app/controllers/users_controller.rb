@@ -5,6 +5,8 @@ class UsersController < ApplicationController
   get "/users/:id" do
     if (@user=User.find_by :id=>(params[:id]))
       if @user.id==session[:user_id]
+        @reviews=Review.all
+        @centers=Center.all
        erb :"/users/show"
       else
        flash[:error]="You have no right to check this user's file."

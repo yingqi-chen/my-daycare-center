@@ -1,8 +1,23 @@
 <h1><%= @user.username %></h1>
 
-<h2>The reviews you have made:</h2>
-<% @user.reviews.each do |r|%>
-<%= r.rate + r.content %>
+<h2>Check out reviews:</h2>
+<ol>
+<% @reviews.each do |r|%>
+<li>User <a href="/users/<%= r.user.id %>"><%= r.user.username  %></a> rates center <a href="/centers/<%= r.center.id%>"> <%= r.center.name %></a> <%= r.rate%>
+<a href="/reviews/<%= r.id %>">Read more</a>
+<br>
 <% end %>
+</ol>
+<br>
 
-<a href="/logout">Log out</a>
+<h2>Check out centers:</h2>
+<ol>
+<% @centers.each do |c|%>
+<li><a href="/centers/<%= c.id %>"><%= c.name %></a>
+<br>
+<% end %>
+</ol>
+
+
+<br>
+<h2><a href="/logout">Log out</a></h2>

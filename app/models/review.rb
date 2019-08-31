@@ -4,4 +4,5 @@ class Review < ActiveRecord::Base
 
   validates :user_id, presence: true
   validates :rate, presence: true
+  validates_associated :user
 end
