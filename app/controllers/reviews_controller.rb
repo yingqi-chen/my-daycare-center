@@ -21,7 +21,6 @@ class ReviewsController < ApplicationController
   post "/reviews" do
     rate=params[:review][:rate].to_i
     center_id=params[:review][:center_id].to_i
-    binding.pry
     if Helper.log_in?(session)
       if rate>=1 && rate <= 5
         center=Center.find(center_id)
@@ -33,6 +32,8 @@ class ReviewsController < ApplicationController
           @review=Review.new(params[:review])
           @review.user=Helper.current_user(session)
           @review.save
+          binding.pry
+          center.rates["#{@review.id}"]=rate
           redirect "/reviews"
         end
       else
@@ -64,6 +65,8 @@ class ReviewsController < ApplicationController
   patch "/reviews/:id" do
     @review=Review.find_by :id=>params[:id]
     @review.update(params[:review])
+      binding.pry
+    @review.center.rates["#{@review.id}"]=@review.rate
     redirect "/reviews/#{@review.id}"
   end
 

@@ -18,7 +18,10 @@ class CentersController < ApplicationController
 
   post "/centers" do
     @center=Center.create(params[:center])
+    @center.rates_new
     if @center.valid?
+      @center.save
+      binding.pry
       redirect "/centers"
     else
       flash[:error]="Sorry, a center must have a name and an address. Try again."
