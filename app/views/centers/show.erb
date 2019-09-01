@@ -1,1 +1,13 @@
-<h1>This is the show page for an individual instance of your model.</h1>
+<h1><%= @center.name %></h1>
+<h2>Reviews about it: </h2>
+
+<ul>
+  <% @center.reviews.each do |r|%>
+    <a href="/users/<%= r.user.id %>"><%= r.user.username %></a> rates it <%= r.rate %>
+    <% if !!r.content%>
+      :<%= r.content%>
+    <% end %>
+  <% end %>
+</ul>
+<br>
+<h3><a href="/reviews/new">Make a review for <%= @center.name %>!</a></h3>

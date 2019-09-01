@@ -28,18 +28,8 @@ class CentersController < ApplicationController
 
   # GET: /centers/5
   get "/centers/:id" do
-
-    erb :"/centers/show.html"
-  end
-
-  # GET: /centers/5/edit
-  get "/centers/:id/edit" do
-    erb :"/centers/edit.html"
-  end
-
-  # PATCH: /centers/5
-  patch "/centers/:id" do
-    redirect "/centers/:id"
+    @center=Center.find_by :id=>params[:id]
+    erb :"/centers/show"
   end
 
 

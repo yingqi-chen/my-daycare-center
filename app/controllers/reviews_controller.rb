@@ -21,6 +21,7 @@ class ReviewsController < ApplicationController
   post "/reviews" do
     rate=params[:review][:rate].to_i
     center_id=params[:review][:center_id].to_i
+    binding.pry
     if Helper.log_in?(session)
       if rate>=1 && rate <= 5
         center=Center.find(center_id)
@@ -45,7 +46,6 @@ class ReviewsController < ApplicationController
   # GET: /reviews/5
   get "/reviews/:id" do
     @review=Review.find_by :id=>params[:id]
-    #if @review && @review.user==
     erb :"/reviews/show"
   end
 
