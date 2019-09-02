@@ -32,8 +32,8 @@ class ReviewsController < ApplicationController
           @review=Review.new(params[:review])
           @review.user=Helper.current_user(session)
           @review.save
-          binding.pry
-          center.rates["#{@review.id}"]=rate
+          #binding.pry
+          #center.rates["#{@review.id}"]=rate
           redirect "/reviews"
         end
       else
@@ -65,8 +65,8 @@ class ReviewsController < ApplicationController
   patch "/reviews/:id" do
     @review=Review.find_by :id=>params[:id]
     @review.update(params[:review])
-      binding.pry
-    @review.center.rates["#{@review.id}"]=@review.rate
+      #binding.pry
+#@review.center.rates["#{@review.id}"]=@review.rate
     redirect "/reviews/#{@review.id}"
   end
 

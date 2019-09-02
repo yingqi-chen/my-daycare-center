@@ -17,15 +17,19 @@ class CentersController < ApplicationController
   end
 
   post "/centers" do
-    @center=Center.create(params[:center])
-    @center.rates_new
-    if @center.valid?
-      @center.save
-      binding.pry
-      redirect "/centers"
+    if !!(Center.find_by :address=>params[:center][:address])
+      flash[:error]="A center with same address is already registered. Try to find it!"
+      redirect '/centers'
     else
-      flash[:error]="Sorry, a center must have a name and an address. Try again."
-      redirect to "/centers/new"
+      @center=Center.create(params[:center])
+      if @center.valid?
+        @center.save
+        #binding.pry
+        redirect "/centers"
+      else
+        flash[:error]="Sorry, a center must have a name and an address.If you do input both, check if that  Try again."
+        redirect to "/centers/new"
+      end
     end
   end
 
