@@ -1,6 +1,6 @@
 # My Daycare Center
 
-It is created to present the top 10 local day care centers according to user input.
+You can use this website to create or comment on a daycare center, edit or delete the reviews you have made, and thus share with everybody your opinion for some certain centers.
 
 ## Installation
 

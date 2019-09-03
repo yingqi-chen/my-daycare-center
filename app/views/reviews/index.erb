@@ -3,7 +3,7 @@
 
   <% @reviews.each do |r|%>
 
-    <li>User <a href="/users/<%= r.user.id %>"><%= r.user.username  %></a> rates Center <a href="/centers/<%= r.center.id%>"> <%= r.center.name %></a> <%= r.rate%>
+    <li>User <%= r.user.username  %> rates Center <a href="/centers/<%= r.center.id%>"> <%= r.center.name %></a> <%= r.rate%>
     <a href="/reviews/<%= r.id %>">Read content</a>
     <br>
   <% end %>
