@@ -36,6 +36,8 @@ class CentersController < ApplicationController
   # GET: /centers/5
   get "/centers/:id" do
     @center=Center.find_by :id=>params[:id]
+    binding.pry
+    @avg= "%.2f" %@center.average
     erb :"/centers/show"
   end
 
