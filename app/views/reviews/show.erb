@@ -2,7 +2,7 @@
 
 <p>
 who rated it: <a href="/users/<%= @review.user.id%>"><%= @review.user.username %></a><br>
-rate: <%= @review.rate%><br>
+rate: <%= @review.rate.rate_value%><br>
 content:
 <% if !(@review.content.empty?) %>
   "<%= @review.content%>"

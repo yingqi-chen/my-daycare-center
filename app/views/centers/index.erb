@@ -2,6 +2,7 @@
 <ol>
   <% @centers.each do |c|%>
     <li><a href="/centers/<%= c.id %>"><%= c.name %>: <%= c.address %></a>
+    rate: <%= c.average %>
     <br>
   <% end %>
 </ol>

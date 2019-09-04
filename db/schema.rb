@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190829191325) do
+ActiveRecord::Schema.define(version: 20190904164219) do
 
   create_table "centers", force: :cascade do |t|
     t.string   "name"
@@ -21,8 +21,13 @@ ActiveRecord::Schema.define(version: 20190829191325) do
     t.datetime "updated_at",   null: false
   end
 
+  create_table "rates", force: :cascade do |t|
+    t.integer "rate_value"
+    t.integer "review_id"
+    t.integer "center_id"
+  end
+
   create_table "reviews", force: :cascade do |t|
-    t.float    "rate"
     t.string   "content"
     t.integer  "user_id"
     t.integer  "center_id"

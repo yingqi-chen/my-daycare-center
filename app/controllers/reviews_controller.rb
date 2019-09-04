@@ -19,28 +19,28 @@ class ReviewsController < ApplicationController
 
   # POST: /reviews
   post "/reviews" do
-    rate=params[:review][:rate].to_i
     center_id=params[:review][:center_id].to_i
     if Helper.log_in?(session)
-      if rate>=1 && rate <= 5
-        center=Center.find(center_id)
-        if Helper.current_user(session).centers.include?(center)
-          flash[:error]="You already rated this center before. Here is the review you have."
-          review=Review.find_by :center_id=>center_id
-          redirect to "/reviews/#{review.id}"
-        else
-          @review=Review.new(params[:review])
-          @review.user=Helper.current_user(session)
-          @review.save
-          #binding.pry
-          #center.rates["#{@review.id}"]=rate
-          redirect "/reviews"
-        end
+      center=Center.find(center_id)
+      if Helper.current_user(session).centers.include?(center)
+        flash[:error]="You already rated this center before. Here is the review you have."
+        review=Review.find_by :center_id=>center_id
+        redirect to "/reviews/#{review.id}"
       else
-        flash[:error]="The rate you input is not a valid number. It should be between 1-5."
-        redirect to "/reviews/new"
+        @review=Review.new(params[:review])
+        @review.user=Helper.current_user(session)
+        @rate=Rate.create(params[:rate])
+        binding.pry
+        @rate.review=@review
+        @rate.save
+        #@review.save since the children is saved, when I connect the children with the parent, the parent is saved too
+        #binding.pry
+        #center.rates["#{@review.id}"]=rate
+        redirect "/reviews"
       end
-      redirect to "/login"
+    else
+       flash[:error]="You have to log in first."
+       redirect to "/login"
     end
   end
 
@@ -65,6 +65,8 @@ class ReviewsController < ApplicationController
   patch "/reviews/:id" do
     @review=Review.find_by :id=>params[:id]
     @review.update(params[:review])
+    @rate=@review.rate
+    @rate.update(params[:rate])
       #binding.pry
 #@review.center.rates["#{@review.id}"]=@review.rate
     redirect "/reviews/#{@review.id}"

@@ -1,14 +1,16 @@
 <h1><%= @center.name %></h1>
+<h2>Rate: <%= @center.average %> </h2>
 <h2>Reviews about it: </h2>
 
 <ul>
   <% @center.reviews.each do |r|%>
-    <a href="/users/<%= r.user.id %>"><%= r.user.username %></a> rates it <%= r.rate %>
+    <a href="/users/<%= r.user.id %>"><%= r.user.username %></a> rates it <%= r.rate.rate_value %>
     <% if !(r.content.empty?) %>
       "<%= r.content%>"
     <% else %>
       <%= "\"No review content left by the user.\" "%>
     <% end %>
+    <br>
   <% end %>
 </ul>
 <br>

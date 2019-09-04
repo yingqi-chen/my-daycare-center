@@ -2,7 +2,7 @@
 <form action="/reviews/<%= @review.id%>" method="POST">
   <input id="hidden" type="hidden" name="_method" value="patch">
   <p>You can edit your review for <a href="/centers/<%= @review.center.id%>"><%= @review.center.name %></a>: </p>
-  <label>Rate: <input type="text" name="review[rate]" value="<%= @review.rate%>"></label>
+  <label>Rate: <input type="text" name="rate[rate_value]" value="<%= @review.rate.rate_value%>"></label>
   <br>
   Content: <textarea name="review[content]"><%= @review.content %></textarea><br>
   <input type="submit" value="Edit your review">
