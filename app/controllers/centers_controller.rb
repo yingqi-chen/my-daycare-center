@@ -8,7 +8,7 @@ class CentersController < ApplicationController
 
   # GET: /centers/new
   get "/centers/new" do
-    if Helper.log_in?(session)
+    if Helper.log_in?
       erb :"/centers/new"
     else
       flash[:error]="You have to log in first before creating a center!"
@@ -36,7 +36,6 @@ class CentersController < ApplicationController
   # GET: /centers/5
   get "/centers/:id" do
     @center=Center.find_by :id=>params[:id]
-    binding.pry
     @avg= "%.2f" %@center.average
     erb :"/centers/show"
   end

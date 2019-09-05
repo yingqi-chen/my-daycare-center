@@ -24,7 +24,7 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/signup' do
-    if Helper.log_in?(session)
+    if Helper.log_in?
       redirect to "/users/#{session[:user_id]}"
     else
       @user=User.create(params[:user])
@@ -62,5 +62,20 @@ class ApplicationController < Sinatra::Base
     redirect to '/login'
   end
 
+  helpers do
+
+
+      def current_user
+        User.find_by :id=>session[:user_id]
+      end
+
+      def log_in?
+        !!session[:user_id]
+      end
+
+
+
+
+  end
 
 end

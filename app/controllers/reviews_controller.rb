@@ -8,7 +8,7 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews/new
   get "/reviews/new" do
-    if Helper.log_in?(session)
+    if log_in?
       @centers=Center.all
       erb :"/reviews/new"
     else
@@ -20,17 +20,16 @@ class ReviewsController < ApplicationController
   # POST: /reviews
   post "/reviews" do
     center_id=params[:review][:center_id].to_i
-    if Helper.log_in?(session)
+    if Helper.log_in?
       center=Center.find(center_id)
-      if Helper.current_user(session).centers.include?(center)
+      if Helper.current_user.centers.include?(center)
         flash[:error]="You already rated this center before. Here is the review you have."
         review=Review.find_by :center_id=>center_id
         redirect to "/reviews/#{review.id}"
       else
         @review=Review.new(params[:review])
-        @review.user=Helper.current_user(session)
+        @review.user=Helper.current_user
         @rate=Rate.create(params[:rate])
-        binding.pry
         @rate.review=@review
         @rate.save
         #@review.save since the children is saved, when I connect the children with the parent, the parent is saved too
@@ -53,7 +52,7 @@ class ReviewsController < ApplicationController
   # GET: /reviews/5/edit
   get "/reviews/:id/edit" do
     @review=Review.find_by :id=>params[:id]
-    if Helper.current_user(session)==@review.user
+    if Helper.current_user==@review.user
       erb :"/reviews/edit"
     else
       flash[:error]="You have no right to edit this review."
@@ -75,7 +74,7 @@ class ReviewsController < ApplicationController
   # DELETE: /reviews/5/delete
   delete "/reviews/:id/delete" do
     @review=Review.find_by :id=>params[:id]
-    if Helper.current_user(session)==@review.user
+    if Helper.current_user==@review.user
       @review.delete
       redirect to "/reviews"
     else
