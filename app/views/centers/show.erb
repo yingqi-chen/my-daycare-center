@@ -5,7 +5,7 @@
 <ul>
   <% @center.reviews.each do |r|%>
     <a href="/users/<%= r.user.id %>"><%= r.user.username %></a> rates it <%= r.rate.rate_value %>
-    <% if !(r.content.empty?) %>
+    <% if r.content && !(r.content.empty?) %>
       "<%= r.content%>"
     <% else %>
       <%= "\"No review content left by the user.\" "%>

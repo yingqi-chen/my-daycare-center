@@ -6,7 +6,7 @@ class UsersController < ApplicationController
     if log_in?
       @user=User.find_by :id=>params[:id]
       #binding.pry
-      if @user==current_user(session)
+      if @user==current_user
         @reviews=@user.reviews
         erb :"/users/show"
       else

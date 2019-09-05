@@ -28,10 +28,12 @@ class ReviewsController < ApplicationController
         redirect to "/reviews/#{review.id}"
       else
         @review=Review.new(params[:review])
-        @review.user=Helper.current_user
+        @review.user=current_user
         @rate=Rate.create(params[:rate])
         @rate.review=@review
+        @rate.center=center
         @rate.save
+        binding.pry
         #@review.save since the children is saved, when I connect the children with the parent, the parent is saved too
         #binding.pry
         #center.rates["#{@review.id}"]=rate

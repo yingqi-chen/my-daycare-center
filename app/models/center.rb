@@ -10,8 +10,8 @@ class Center < ActiveRecord::Base
   end
 
   has_many :reviews
-  has_many :rates, :inverse_of => :center, through: :reviews
-  has_many :users, through: :reviews
+  has_many :rates, through: :reviews
+  has_many :users
 
 
   validates :name, presence: true
