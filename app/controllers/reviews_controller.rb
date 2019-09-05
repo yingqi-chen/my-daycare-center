@@ -20,9 +20,9 @@ class ReviewsController < ApplicationController
   # POST: /reviews
   post "/reviews" do
     center_id=params[:review][:center_id].to_i
-    if Helper.log_in?
+    if log_in?
       center=Center.find(center_id)
-      if Helper.current_user.centers.include?(center)
+      if current_user.centers.include?(center)
         flash[:error]="You already rated this center before. Here is the review you have."
         review=Review.find_by :center_id=>center_id
         redirect to "/reviews/#{review.id}"
@@ -52,7 +52,7 @@ class ReviewsController < ApplicationController
   # GET: /reviews/5/edit
   get "/reviews/:id/edit" do
     @review=Review.find_by :id=>params[:id]
-    if Helper.current_user==@review.user
+    if current_user==@review.user
       erb :"/reviews/edit"
     else
       flash[:error]="You have no right to edit this review."
@@ -74,7 +74,7 @@ class ReviewsController < ApplicationController
   # DELETE: /reviews/5/delete
   delete "/reviews/:id/delete" do
     @review=Review.find_by :id=>params[:id]
-    if Helper.current_user==@review.user
+    if current_user==@review.user
       @review.delete
       redirect to "/reviews"
     else

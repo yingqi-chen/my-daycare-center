@@ -3,10 +3,10 @@ class UsersController < ApplicationController
 
   # GET: /users/5
   get "/users/:id" do
-    if Helper.log_in?(session)
+    if log_in?
       @user=User.find_by :id=>params[:id]
       #binding.pry
-      if @user==Helper.current_user(session)
+      if @user==current_user(session)
         @reviews=@user.reviews
         erb :"/users/show"
       else

@@ -8,7 +8,7 @@ class CentersController < ApplicationController
 
   # GET: /centers/new
   get "/centers/new" do
-    if Helper.log_in?
+    if log_in?
       erb :"/centers/new"
     else
       flash[:error]="You have to log in first before creating a center!"
