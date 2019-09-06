@@ -35,8 +35,6 @@ class ReviewsController < ApplicationController
         @rate.save
         binding.pry
         #@review.save since the children is saved, when I connect the children with the parent, the parent is saved too
-        #binding.pry
-        #center.rates["#{@review.id}"]=rate
         redirect "/reviews"
       end
     else
@@ -64,24 +62,37 @@ class ReviewsController < ApplicationController
 
   # PATCH: /reviews/5
   patch "/reviews/:id" do
-    @review=Review.find_by :id=>params[:id]
-    @review.update(params[:review])
-    @rate=@review.rate
-    @rate.update(params[:rate])
-      #binding.pry
-#@review.center.rates["#{@review.id}"]=@review.rate
-    redirect "/reviews/#{@review.id}"
+    if log_in?
+      @review=Review.find_by :id=>params[:id]
+        if current_user==@review.user
+          @review.update(params[:review])
+          @rate=@review.rate
+          @rate.update(params[:rate])
+          redirect "/reviews/#{@review.id}"
+        else
+          flash[:error]="You have no right to edit this review."
+          redirect to '/reviews/<%= @review.id %>'
+        end
+      else
+        flash[:error]="You have to log in first."
+        redirect to '/login'
+      end
   end
 
   # DELETE: /reviews/5/delete
   delete "/reviews/:id/delete" do
-    @review=Review.find_by :id=>params[:id]
-    if current_user==@review.user
-      @review.delete
-      redirect to "/reviews"
+    if log_in?
+      @review=Review.find_by :id=>params[:id]
+      if current_user==@review.user
+        @review.delete
+        redirect to "/reviews"
+      else
+        flash[:error]="You have no right to delete this review."
+        redirect to "/reviews"
+      end
     else
-      flash[:error]="You have no right to delete this review."
-      redirect to "/reviews"
+      flash[:error]="You have to log in first."
+      redirect to '/login'
     end
   end
 end

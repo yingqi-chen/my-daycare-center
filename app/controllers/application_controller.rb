@@ -19,24 +19,6 @@ class ApplicationController < Sinatra::Base
     erb :welcome
   end
 
-  get '/signup' do
-    erb :"/users/signup"
-  end
-
-  post '/signup' do
-    if log_in?
-      redirect to "/users/#{session[:user_id]}"
-    else
-      @user=User.create(params[:user])
-      if @user.valid?
-        session[:user_id]=@user.id
-        redirect to "/users/#{@user.id}"
-      else
-        flash[:error]="Did you submit a blank username, email or password? Or did you give me a registered email? That's not acceptable, try again please! "
-        redirect to "/signup"
-      end
-    end
-  end
 
   get '/login' do
     if session[:user_id]
