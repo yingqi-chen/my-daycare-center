@@ -3,12 +3,14 @@
 <h2>Your reviews:</h2>
 <ol>
   <% @reviews.each do |r|%>
-    <li><%= r.user.username  %> rates Center <a href="/centers/<%= r.center.id%>"> <%= r.center.name %></a> <%= r.rate.rate_value%>:
-    <% if !r.content.empty? %>
-      "<%= r.content%>"
-    <% else %>
-      <%= "\"No review content left by the user.\" "%>
-    <% end %>
+    <li>
+      <%= r.user.username  %> rates Center <a href="/centers/<%= r.center.id%>"> <%= r.center.name %></a> <%= r.rate.rate_value%>:
+        <% if !r.content.empty? %>
+          "<%= r.content%>"
+        <% else %>
+          <%= "\"No review content left by the user.\" "%>
+        <% end %>
+      <a href="/reviews/<%= r.id %>">More</a>
     </li>
     <br>
   <% end %>

@@ -2,7 +2,13 @@
 <form action="/reviews/<%= @review.id%>" method="POST">
   <input id="hidden" type="hidden" name="_method" value="patch">
   <p>You can edit your review for <a href="/centers/<%= @review.center.id%>"><%= @review.center.name %></a>: </p>
-  <label>Rate: <input type="text" name="rate[rate_value]" value="<%= @review.rate.rate_value%>"></label>
+  <label>Rate(5 is the best):
+    <input type="radio" name="rate[rate_value]" value="1">1
+    <input type="radio" name="rate[rate_value]" value="2">2
+    <input type="radio" name="rate[rate_value]" value="3">3
+    <input type="radio" name="rate[rate_value]" value="4">4
+    <input type="radio" name="rate[rate_value]" value="5">5
+  </label>
   <br>
   Content: <textarea name="review[content]"><%= @review.content %></textarea><br>
   <input type="submit" value="Edit your review">
