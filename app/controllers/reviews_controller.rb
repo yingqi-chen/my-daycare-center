@@ -24,7 +24,7 @@ class ReviewsController < ApplicationController
       center=Center.find(center_id)
       if current_user.centers.include?(center)
         flash[:error]="You already rated this center before. Here is the review you have."
-        review=Review.find_by :center_id=>center_id
+        review=Review.find_by :center_id=>center_id, :user_id=>current_user.id
         redirect to "/reviews/#{review.id}"
       else
         @review=Review.new(params[:review])
@@ -33,7 +33,6 @@ class ReviewsController < ApplicationController
         @rate.review=@review
         @rate.center=center
         @rate.save
-        binding.pry
         #@review.save since the children is saved, when I connect the children with the parent, the parent is saved too
         redirect "/reviews"
       end
