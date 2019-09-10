@@ -10,5 +10,9 @@
 <br>
 <ul>
   <li><a href="/signup">Sign up</a></li>
+  <% if !log_in? %>
   <li><a href="/login">Log in</a></li>
+  <% else %>
+  <li><a href="/logout">Log out</a></li>
+  <% end %>
 </ul>
