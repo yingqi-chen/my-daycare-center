@@ -12,8 +12,10 @@ content:
 <br>
 </p>
 
+<% if current_user==@review.user%>
 <p><a href="/reviews/<%= @review.id%>/edit">Edit review</a></p>
 <form action="/reviews/<%= @review.id %>/delete" method="post">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" value="Delete review">
 </form>
+<% end %>

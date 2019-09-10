@@ -44,13 +44,13 @@ class ReviewsController < ApplicationController
 
   # GET: /reviews/5
   get "/reviews/:id" do
-    @review=Review.find_by :id=>params[:id]
+    set_review
     erb :"/reviews/show"
   end
 
   # GET: /reviews/5/edit
   get "/reviews/:id/edit" do
-    @review=Review.find_by :id=>params[:id]
+    set_review
     if current_user==@review.user
       erb :"/reviews/edit"
     else
@@ -62,15 +62,17 @@ class ReviewsController < ApplicationController
   # PATCH: /reviews/5
   patch "/reviews/:id" do
     if log_in?
-      @review=Review.find_by :id=>params[:id]
+      set_review
         if current_user==@review.user
           @review.update(params[:review])
           @rate=@review.rate
-          @rate.update(params[:rate])
+          if params[:rate]
+            @rate.update(params[:rate])
+          end
           redirect "/reviews/#{@review.id}"
         else
           flash[:error]="You have no right to edit this review."
-          redirect to '/reviews/<%= @review.id %>'
+          redirect to "/reviews/#{@review.id}"
         end
       else
         flash[:error]="You have to log in first."
@@ -81,7 +83,7 @@ class ReviewsController < ApplicationController
   # DELETE: /reviews/5/delete
   delete "/reviews/:id/delete" do
     if log_in?
-      @review=Review.find_by :id=>params[:id]
+      set_review
       if current_user==@review.user
         @review.delete
         redirect to "/reviews"

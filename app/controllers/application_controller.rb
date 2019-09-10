@@ -55,6 +55,13 @@ class ApplicationController < Sinatra::Base
         !!session[:user_id]
       end
 
+      def set_review
+        @review=Review.find_by :id=>params[:id]
+        if !@review
+          redirect to "/reviews"
+        end
+      end
+
 
 
 
