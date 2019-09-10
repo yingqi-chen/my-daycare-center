@@ -1,45 +1,72 @@
-class CentersController < ApplicationController
+class ReviewsController < ApplicationController
 
-  # GET: /centers
-  get "/centers" do
+  # GET: /reviews
+  get "/reviews" do
+    @reviews=Review.all
+    erb :"/reviews/index"
+  end
+
+  # GET: /reviews/new
+  get "/reviews/new" do
+    log_in_first
     @centers=Center.all
-    erb :"/centers/index"
+    erb :"/reviews/new"
   end
 
-  # GET: /centers/new
-  get "/centers/new" do
-    if log_in?
-      erb :"/centers/new"
+  # POST: /reviews
+  post "/reviews" do
+    center_id=params[:review][:center_id].to_i
+    log_in_first
+    center=Center.find(center_id)
+    if current_user.centers.include?(center)
+      flash[:error]="You already rated this center before. Here is the review you have."
+      review=Review.find_by :center_id=>center_id, :user_id=>current_user.id
+      redirect to "/reviews/#{review.id}"
     else
-      flash[:error]="You have to log in first before creating a center!"
-      redirect to "/login"
+      @review=Review.new(params[:review])
+      @review.user=current_user
+      @rate=Rate.create(params[:rate])
+      @rate.review=@review
+      @rate.center=center
+      @rate.save
+      #@review.save since the children is saved, when I connect the children with the parent, the parent is saved too
+      redirect "/reviews"
     end
   end
 
-  post "/centers" do
-    if !!(Center.find_by :address=>params[:center][:address])
-      flash[:error]="A center with same address is already registered. Try to find it!"
-      redirect '/centers'
-    else
-      @center=Center.create(params[:center])
-      if @center.valid?
-        @center.save
-        #binding.pry
-        redirect "/centers"
-      else
-        flash[:error]="Sorry, a center must have a name and an address.If you do input both, check if that  Try again."
-        redirect to "/centers/new"
-      end
+  # GET: /reviews/5
+  get "/reviews/:id" do
+    set_review
+    erb :"/reviews/show"
+  end
+
+  # GET: /reviews/5/edit
+  get "/reviews/:id/edit" do
+    log_in_first
+    set_review
+    correct_user?
+    erb :"/reviews/edit"
+  end
+
+  # PATCH: /reviews/5
+  patch "/reviews/:id" do
+    log_in_first
+    set_review
+    correct_user?
+    @review.update(params[:review])
+    @rate=@review.rate
+    if params[:rate]
+      @rate.update(params[:rate])
     end
+    redirect "/reviews/#{@review.id}"
   end
 
-  # GET: /centers/5
-  get "/centers/:id" do
-    @center=Center.find_by :id=>params[:id]
-    @avg= "%.2f" %@center.average
-    erb :"/centers/show"
+  # DELETE: /reviews/5/delete
+  delete "/reviews/:id/delete" do
+    log_in_first
+    set_review
+    correct_user?
+    @review.delete
+    redirect to "/reviews"
   end
-
-
-
 end

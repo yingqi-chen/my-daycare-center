@@ -16,6 +16,9 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/" do
+    if log_in?
+      @user=User.find(current_user.id)
+    end
     erb :welcome
   end
 
@@ -45,8 +48,6 @@ class ApplicationController < Sinatra::Base
   end
 
   helpers do
-
-
       def current_user
         User.find_by :id=>session[:user_id]
       end
@@ -69,9 +70,12 @@ class ApplicationController < Sinatra::Base
         end
       end
 
-
-
-
+      def correct_user?
+        if !(current_user==@review.user)
+          flash[:error]="You have no right to do this operation."
+          redirect to "/reviews"
+        end
+      end
   end
 
 end
