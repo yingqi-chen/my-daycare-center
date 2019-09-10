@@ -62,6 +62,13 @@ class ApplicationController < Sinatra::Base
         end
       end
 
+      def log_in_first
+        if !log_in?
+          flash[:error]="You have to log in first to continue your operation"
+          redirect to "/login"
+        end
+      end
+
 
 
 
