@@ -44,41 +44,29 @@ class ReviewsController < ApplicationController
   get "/reviews/:id/edit" do
     log_in_first
     set_review
-    if current_user==@review.user
-      erb :"/reviews/edit"
-    else
-      flash[:error]="You have no right to edit this review."
-      redirect to "/reviews"
-    end
+    correct_user?
+    erb :"/reviews/edit"
   end
 
   # PATCH: /reviews/5
   patch "/reviews/:id" do
-      log_in_first
-      set_review
-        if current_user==@review.user
-          @review.update(params[:review])
-          @rate=@review.rate
-          if params[:rate]
-            @rate.update(params[:rate])
-          end
-          redirect "/reviews/#{@review.id}"
-        else
-          flash[:error]="You have no right to edit this review."
-          redirect to "/reviews/#{@review.id}"
-        end
+    log_in_first
+    set_review
+    correct_user?
+    @review.update(params[:review])
+    @rate=@review.rate
+    if params[:rate]
+      @rate.update(params[:rate])
+    end
+    redirect "/reviews/#{@review.id}"
   end
 
   # DELETE: /reviews/5/delete
   delete "/reviews/:id/delete" do
-      log_in_first
-      set_review
-      if current_user==@review.user
-        @review.delete
-        redirect to "/reviews"
-      else
-        flash[:error]="You have no right to delete this review."
-        redirect to "/reviews"
-      end
+    log_in_first
+    set_review
+    correct_user?
+    @review.delete
+    redirect to "/reviews"
   end
 end
