@@ -8,15 +8,12 @@ class CentersController < ApplicationController
 
   # GET: /centers/new
   get "/centers/new" do
-    if log_in?
-      erb :"/centers/new"
-    else
-      flash[:error]="You have to log in first before creating a center!"
-      redirect to "/login"
-    end
+    log_in_first
+    erb :"/centers/new"
   end
 
   post "/centers" do
+    log_in_first
     if !!(Center.find_by :address=>params[:center][:address])
       flash[:error]="A center with same address is already registered. Try to find it!"
       redirect '/centers'
